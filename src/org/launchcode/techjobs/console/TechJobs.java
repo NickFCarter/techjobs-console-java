@@ -1,5 +1,15 @@
 package org.launchcode.techjobs.console;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -115,11 +125,15 @@ public class TechJobs {
             System.out.println("Your search returned no results");
         } else {
 
+            HashMap<String, String> firstJob = someJobs.get(0);
+
             for(int i = 0; i < someJobs.size();i++){
                 for(HashMap<String, String> job : someJobs) {
 
                         for(String key : job.keySet()) {
-                            if (key.contentEquals("core competency")) {
+
+                            if(key == (job.keySet().toArray()[job.keySet().size()-1])){
+                            //if (key.contentEquals("core competency")) {
 
                                 System.out.println(key + ": " + job.get(key) + "\n ********");
                             } else {

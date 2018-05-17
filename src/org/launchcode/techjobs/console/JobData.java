@@ -7,9 +7,8 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by LaunchCode
@@ -75,8 +74,9 @@ public class JobData {
         for (HashMap<String, String> row : allJobs) {
 
             String aValue = row.get(column);
+            String lowValue = aValue.toLowerCase();
 
-            if (aValue.contains(value)) {
+            if (lowValue.contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -88,18 +88,42 @@ public class JobData {
         loadData();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+        HashMap<String, String> instance = allJobs.get(0);
+        ArrayList<HashMap<String, String>> duplicateJobs = new ArrayList<>();
+        HashMap<String, String> alreadyCounted = new HashMap<>();
 
-        for (int i=0; i < allJobs.size(); i++){
-            HashMap<String, String> job = allJobs.get(i);
-            for(String job_value : job.values()){
-                if(jobs.contains(job)){
-                    jobs.remove(job);
+        for (String field : instance.keySet()) {
+
+            ArrayList<HashMap<String, String>> partialResult = JobData.findByColumnAndValue(field, value);
+
+            for (HashMap<String, String> singleResult : partialResult) {
+
+                if(jobs.indexOf(singleResult) > -1 && !jobs.contains(singleResult)) {
+                    alreadyCounted = jobs.get(jobs.indexOf(singleResult));
+
+                    while (jobs.contains(alreadyCounted)) {
+                        //if already added to jobs
+                        alreadyCounted = jobs.get(jobs.indexOf(singleResult));
+                        duplicateJobs.add(jobs.get(jobs.indexOf(singleResult)));
+                        jobs.remove(jobs.lastIndexOf(singleResult));
+
+                    }
                 }
-                if(job_value.contains(value)){
-                    jobs.add(job);
-                }
+
+                jobs.add(singleResult);
             }
         }
+
+        //
+        Set<HashMap<String, String>> hs = new HashSet<>();
+        hs.addAll(jobs);
+        jobs.clear();
+        for(HashMap<String, String> job : hs){
+            jobs.add(job);
+        }
+
+
+        jobs.removeAll(duplicateJobs);
         return jobs;
     }
 
