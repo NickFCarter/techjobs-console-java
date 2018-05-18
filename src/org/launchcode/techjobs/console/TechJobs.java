@@ -125,9 +125,9 @@ public class TechJobs {
             System.out.println("Your search returned no results");
         } else {
 
-            HashMap<String, String> firstJob = someJobs.get(0);
+            //HashMap<String, String> firstJob = someJobs.get(0);
 
-            for(int i = 0; i < someJobs.size();i++){
+            //for(int i = 0; i < someJobs.size();i++){
                 for(HashMap<String, String> job : someJobs) {
 
                         for(String key : job.keySet()) {
@@ -142,7 +142,7 @@ public class TechJobs {
                             }
                         }
                     }
-                }
+                //}
             }
 
 

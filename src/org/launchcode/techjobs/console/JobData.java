@@ -88,8 +88,16 @@ public class JobData {
         loadData();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
-        HashMap<String, String> instance = allJobs.get(0);
-        ArrayList<HashMap<String, String>> duplicateJobs = new ArrayList<>();
+        for (HashMap<String, String> row : allJobs){
+            if (row.toString().toLowerCase().contains(value.toLowerCase())){
+                jobs.add(row);
+            }
+            }
+
+
+
+        /*HashMap<String, String> instance = allJobs.get(0);
+        //ArrayList<HashMap<String, String>> duplicateJobs = new ArrayList<>();
         HashMap<String, String> alreadyCounted = new HashMap<>();
 
         for (String field : instance.keySet()) {
@@ -104,7 +112,7 @@ public class JobData {
                     while (jobs.contains(alreadyCounted)) {
                         //if already added to jobs
                         alreadyCounted = jobs.get(jobs.indexOf(singleResult));
-                        duplicateJobs.add(jobs.get(jobs.indexOf(singleResult)));
+                        //duplicateJobs.add(jobs.get(jobs.indexOf(singleResult)));
                         jobs.remove(jobs.lastIndexOf(singleResult));
 
                     }
@@ -112,18 +120,18 @@ public class JobData {
 
                 jobs.add(singleResult);
             }
-        }
+        }*/
 
         //
-        Set<HashMap<String, String>> hs = new HashSet<>();
+        /*Set<HashMap<String, String>> hs = new HashSet<>();
         hs.addAll(jobs);
         jobs.clear();
         for(HashMap<String, String> job : hs){
             jobs.add(job);
-        }
+        }*/
 
 
-        jobs.removeAll(duplicateJobs);
+        //jobs.removeAll(duplicateJobs);
         return jobs;
     }
 
